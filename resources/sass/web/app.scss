@@ -1,0 +1,15 @@
+// Fonts
+
+// Variables
+@import 'variables';
+@import 'themes-vars.module.scss';
+@import 'react-nano-scrollbar/dist/index.css';
+
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+// Page Style
+main > .container {
+    padding: 60px 15px 0;
+}

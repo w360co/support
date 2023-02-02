@@ -1,0 +1,33 @@
+{
+    "name": "w360/support",
+    "description": "Base module for w360 projects using react",
+    "type": "library",
+    "license": "MIT",
+    "version": "1.0.0",
+    "autoload": {
+        "psr-4": {
+            "W360\\Support\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "W360\\Support\\SupportServiceProvider"
+            ]
+        }
+    },
+    "authors": [
+        {
+            "name": "Elbert Tous",
+            "email": "elbertjose@hotmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "php": "^8.0",
+        "ext-json": "*",
+        "ext-curl": "*",
+        "illuminate/support": "10.0"
+    }
+}
