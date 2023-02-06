@@ -27,19 +27,28 @@ class SupportServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
             $this->publishes([
                 __DIR__ . '/../tsconfig.json' => base_path('tsconfig.json'),
-            ], 'react');
+            ], 'support-react');
 
             $this->publishes([
                 __DIR__ . '/../resources/js' => resource_path('js'),
-            ], 'react');
+            ], 'support-react');
 
             $this->publishes([
                 __DIR__ . '/../resources/sass' => resource_path('sass'),
-            ], 'react');
+            ], 'support-react');
 
             $this->publishes([
                 __DIR__ . '/../locales' => public_path('locales'),
-            ], 'react');
+            ], 'support-react');
+
+            $this->publishes([
+                __DIR__ . '/../stubs/docker.vite.config.js' => base_path('vite.config.js'),
+            ], 'support-docker');
+
+            $this->publishes([
+                __DIR__ . '/../stubs/laragon.vite.config.js' => base_path('vite.config.js'),
+            ], 'support-laragon');
+
 
             // Registering package commands.
             // $this->commands([]);

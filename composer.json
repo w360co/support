@@ -9,6 +9,11 @@
             "W360\\Support\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "W360\\Support\\Tests\\": "tests/"
+        }
+    },
     "extra": {
         "laravel": {
             "providers": [
@@ -24,10 +29,14 @@
     ],
     "minimum-stability": "dev",
     "prefer-stable": true,
+    "config": {
+        "sort-packages": true
+    },
     "require": {
         "php": "^8.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "illuminate/support": "10.0"
+        "laravel/framework": "^9.19",
+        "intervention/image": "^2.7"
     }
 }
