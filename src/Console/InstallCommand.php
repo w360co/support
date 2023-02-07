@@ -44,18 +44,18 @@ class InstallCommand extends Command
             $this->callSilent('sail:install');
             if ($this->option('host') != 'localhost') {
                 $this->replaceInFile("laravel.test", $this->option('host'), base_path('docker-compose.yml'));
-                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->option('host').PHP_EOL."APP_SERVICE=".$this->option('host').PHP_EOL."APP_PORT=8443", base_path('.env'));
+                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->option('host'). ":8443/" . PHP_EOL . "APP_SERVICE=" . $this->option('host') . PHP_EOL . "APP_PORT=8443", base_path('.env'));
                 $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
-                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development". PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://".$this->option('host').":8443/", base_path('.env'));
+                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development" . PHP_EOL . "VITE_APP_PRODUCTION_URL=https://" . $this->option('host') . "/" . PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://" . $this->option('host') . ":8443/", base_path('.env'));
             }
         }
 
         if ($this->option('laragon')) {
             $this->callSilent('vendor:publish', ['--tag' => 'support-laragon', '--force' => true]);
             if ($this->option('host') != 'localhost') {
-                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://" . $this->option('host') . PHP_EOL . "APP_PORT=8443", base_path('.env'));
+                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://" . $this->option('host') . ":8443/" . PHP_EOL . "APP_PORT=8443", base_path('.env'));
                 $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
-                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development". PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://".$this->option('host').":8443/", base_path('.env'));
+                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development" . PHP_EOL . "VITE_APP_PRODUCTION_URL=https://" . $this->option('host') . "/" . PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://" . $this->option('host') . ":8443/", base_path('.env'));
             }
         }
 
