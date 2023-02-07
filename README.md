@@ -24,7 +24,7 @@ Base module for w360 projects using react
 
 ## Libraries
 
-- Firebase PHP JWT https://github.com/firebase/php-jwt
+- Image Intervention https://image.intervention.io/v2/introduction/installation
 - Internationalization i18next https://www.i18next.com/
 
 ##  License
