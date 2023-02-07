@@ -7,7 +7,7 @@ import {RouteItem} from "@/web/routes/type";
  */
 const routes: RouteItem[] = [
     {
-        path: "/",
+        path: "/web",
         element: React.lazy(() => import("@/web/shared/layouts/support")),
         meta: {name: "Incio"},
         children: [

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/web/{path?}', 'web')
+/* W360 Support Routes */
+Route::view('/web/{path?}', 'w-support::web')
     ->where('path', '.*')
-    ->name('web-app');
+    ->name('web-support');

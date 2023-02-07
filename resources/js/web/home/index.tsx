@@ -10,12 +10,10 @@ const Home: FC = () => {
     usePageTitle("Site")
 
     return (
-        <div>
+        <div className={"text-center"}>
             <h1 className="mt-5">HOME</h1>
-            <p className="lead">Pin a footer to the bottom of the viewport in desktop browsers with this custom HTML and
-                CSS. A fixed navbar has been added with <code className="small">padding-top: 60px;</code> on the <code
-                    className="small">main &gt; .container</code>.</p>
-            <p>minus the navbar.</p>
+            <p className="lead">This is a boiler template using react and bootstrap for w360 projects.</p>
+            <p>This template has been installed using the <a target={"_blank"} href={"https://github.com/w360co/support"}>W360/support</a> module package</p>
         </div>
     )
 

@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 
-import logoW from '@/web/assets/images/logoW360.svg';
+import logoW from '@/web/shared/assets/images/logoW360.svg';
 
 /**
  *

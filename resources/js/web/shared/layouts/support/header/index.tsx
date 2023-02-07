@@ -1,15 +1,12 @@
 import React, {FC} from "react";
-import {useTranslation} from "react-i18next";
 import NavBar from "@/web/shared/layouts/support/navbar";
-import logoW from '@/web/assets/images/logoW360.svg';
+import logoW from '@/web/shared/assets/images/logoW360.svg';
 
 
 /**
  * @constructor
  */
 const Header: FC = () => {
-
-    const {t} = useTranslation(['main-menu']);
 
     return (
         <header className={"container py-3"}>

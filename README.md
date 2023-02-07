@@ -9,6 +9,11 @@ Base module for w360 projects using react
 <!-- /TOC -->
 
 ## Installation
+- installation on windows using laragon
+    > php artisan w-support:install --host=example.local --laragon
+- installation on linux using docker
+    > php artisan w-support:install --host=example.local --docker
+
 
 
 ## Features

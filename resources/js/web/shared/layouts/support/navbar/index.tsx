@@ -8,7 +8,7 @@ import {useTranslation} from "react-i18next";
  */
 const NavBar: FC = () => {
 
-    const {t} = useTranslation(['main-menu']);
+    const {t} = useTranslation();
 
     return (
             <nav className="navbar navbar-expand-md navbar-light bg-faded">
@@ -21,10 +21,7 @@ const NavBar: FC = () => {
                     <div className="collapse navbar-collapse" id="navbarCollapse">
                         <ul className="navbar-nav mx-auto mb-2 mb-md-0 ">
                             <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" to={"/blank"}>{t('profile', 'Home')}</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" aria-current="page" to={"/test"}>{t('publications', 'Test')}</Link>
+                                <Link className="nav-link" aria-current="page" to={"/web"}>{t('profile', 'Home')}</Link>
                             </li>
                         </ul>
                     </div>

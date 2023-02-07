@@ -2,10 +2,6 @@
 
 namespace W360\Support\Console;
 
-use Illuminate\Support\Str;
-use RuntimeException;
-use Symfony\Component\Process\PhpExecutableFinder;
-use Symfony\Component\Process\Process;
 use Illuminate\Console\Command;
 use W360\Support\Traits\HasConsole;
 
@@ -47,20 +43,25 @@ class InstallCommand extends Command
             $this->callSilent('vendor:publish', ['--tag' => 'support-docker', '--force' => true]);
             $this->callSilent('sail:install');
             if ($this->option('host') != 'localhost') {
-                $this->replaceInFile("laravel.test", $this->argument('host'), base_path('docker-compose.yml'));
-                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->argument('host').PHP_EOL."APP_SERVICE=".$this->argument('host').PHP_EOL."APP_PORT=8443", base_path('.env'));
-                $this->replaceInFile("laravel.test", $this->argument('host'), base_path('vite.config.js'));
-                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development". PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://".$this->argument('host').":8443/", base_path('.env'));
+                $this->replaceInFile("laravel.test", $this->option('host'), base_path('docker-compose.yml'));
+                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->option('host').PHP_EOL."APP_SERVICE=".$this->option('host').PHP_EOL."APP_PORT=8443", base_path('.env'));
+                $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
+                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development". PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://".$this->option('host').":8443/", base_path('.env'));
             }
         }
 
         if ($this->option('laragon')) {
             $this->callSilent('vendor:publish', ['--tag' => 'support-laragon', '--force' => true]);
             if ($this->option('host') != 'localhost') {
-                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://" . $this->argument('host') . PHP_EOL . "APP_PORT=8443", base_path('.env'));
-                $this->replaceInFile("laravel.test", $this->argument('host'), base_path('vite.config.js'));
-                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development". PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://".$this->argument('host').":8443/", base_path('.env'));
+                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://" . $this->option('host') . PHP_EOL . "APP_PORT=8443", base_path('.env'));
+                $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
+                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development". PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://".$this->option('host').":8443/", base_path('.env'));
             }
+        }
+
+
+        if (file_exists(base_path('routes/web.php'))) {
+            $this->replaceInFile('return view(\'welcome\');', 'return redirect()->route(\'web-support\');', base_path('routes/web.php'));
         }
 
         $this->callSilent('vendor:publish', ['--tag' => 'support-react', '--force' => true]);
@@ -76,6 +77,8 @@ class InstallCommand extends Command
                     "@popperjs/core" => "^2.10.2",
                     "@vitejs/plugin-basic-ssl" => "^1.0.1",
                     "@vitejs/plugin-react" => "^3.0.0",
+                    "@types/react" => "^17.0.45",
+                    "@types/react-dom" => "^17.0.9",
                     "i18next-browser-languagedetector" => "^6.1.5",
                     "i18next-http-backend" => "^1.4.1",
                     "react" =>  "^17.0.2",
@@ -87,11 +90,12 @@ class InstallCommand extends Command
                     "bootstrap" => "^5.1.3",
                     "classnames" => "^2.3.1",
                     "react-i18next" => "^11.18.5",
+                    "javascript-time-ago" => "^2.5.7",
 
                 ] + $packages;
         });
 
-
+        $this->runCommands(['npm install', 'npm run dev']);
 
     }
 

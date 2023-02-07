@@ -1,8 +1,9 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 import react from "@vitejs/plugin-react";
-import basicSsl from '@vitejs/plugin-basic-ssl';
+import * as fs from "fs";
 import {resolve} from 'path';
+import {homedir} from 'os';
 
 const host = 'laravel.test';
 
@@ -15,7 +16,6 @@ export default defineConfig({
     },
     plugins: [
         react(),
-        basicSsl(),
         laravel({
             input: [
                 'resources/sass/app.scss',
