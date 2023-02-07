@@ -1,0 +1,6 @@
+<?php
+
+
+use W360\Support\Tests\TestCase;
+
+uses(TestCase::class)->in( __DIR__ );
