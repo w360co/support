@@ -72,7 +72,7 @@ class SupportServiceProvider extends ServiceProvider
         ], 'support-react');
 
         $this->publishes([
-            __DIR__ . '/../locales' => public_path('locales'),
+            __DIR__ . '/../public/locales' => public_path('locales'),
         ], 'support-react');
 
         $this->publishes([
