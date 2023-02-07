@@ -41,7 +41,7 @@ class InstallCommand extends Command
                 return false;
             }
             $this->callSilent('vendor:publish', ['--tag' => 'support-docker', '--force' => true]);
-            $this->callSilent('sail:install');
+            // $this->callSilent('sail:install');
             if ($this->option('host') != 'localhost') {
                 $this->replaceInFile("laravel.test", $this->option('host'), base_path('docker-compose.yml'));
                 $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->option('host'). ":8443/" . PHP_EOL . "APP_SERVICE=" . $this->option('host') . PHP_EOL . "APP_PORT=8443", base_path('.env'));
