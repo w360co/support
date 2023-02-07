@@ -17,6 +17,7 @@ class InstallCommand extends Command
      * @var string
      */
     protected $signature = 'w-support:install {--host=localhost}
+                                              {--composer=global : Absolute path to the Composer binary which should be used to install packages}
                                               {--docker : Indicates if docker support should be installed}
                                               {--laragon : Indicates if laragon support should be installed}';
 
