@@ -76,7 +76,7 @@ class SupportServiceProvider extends ServiceProvider
         ], 'support-react');
 
         $this->publishes([
-            __DIR__ . '/../README.md' => base_path('README.md'),
+            __DIR__ . '/../Caddyfile' => base_path('Caddyfile'),
         ], 'support-react');
 
         $this->publishes([
