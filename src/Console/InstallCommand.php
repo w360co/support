@@ -42,6 +42,8 @@ class InstallCommand extends Command
                 return false;
             }
             $this->callSilent('vendor:publish', ['--tag' => 'support-docker', '--force' => true]);
+            $this->callSilent('vendor:publish', ['--tag' => 'support-react', '--force' => true]);
+
             // $this->callSilent('sail:install');
             if ($this->option('host') != 'localhost') {
 
@@ -75,7 +77,6 @@ class InstallCommand extends Command
             $this->replaceInFile('return view(\'welcome\');', 'return redirect()->route(\'web-support\');', base_path('routes/web.php'));
         }
 
-        $this->callSilent('vendor:publish', ['--tag' => 'support-react', '--force' => true]);
         $this->callSilent('storage:link');
 
 

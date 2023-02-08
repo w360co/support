@@ -77,7 +77,7 @@ class SupportServiceProvider extends ServiceProvider
 
         $this->publishes([
             __DIR__ . '/../Caddyfile' => base_path('Caddyfile'),
-        ], 'support-react');
+        ], 'support-docker');
 
         $this->publishes([
             __DIR__ . '/../stubs/docker.vite.config.js' => base_path('vite.config.js'),
