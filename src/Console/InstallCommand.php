@@ -44,6 +44,16 @@ class InstallCommand extends Command
             $this->callSilent('vendor:publish', ['--tag' => 'support-docker', '--force' => true]);
             // $this->callSilent('sail:install');
             if ($this->option('host') != 'localhost') {
+
+                $nginxStub = file_get_contents(__DIR__ . '/../../stubs/services/caddy.stub');
+                $volumeStub = file_get_contents(__DIR__ . '/../../stubs/services/volume.stub');
+
+                $this->replacePregInFile(
+                    ['/^services:/m', '/^volumes:/m'],
+                    [$nginxStub, $volumeStub],
+                    base_path('docker-compose.yml'));
+
+                $this->replaceInFile("laravel.test", $this->option('host'), base_path('Caddyfile'));
                 $this->replaceInFile("laravel.test", $this->option('host'), base_path('docker-compose.yml'));
                 $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->option('host'). ":8443/" . PHP_EOL . "APP_SERVICE=" . $this->option('host') . PHP_EOL . "APP_PORT=8443", base_path('.env'));
                 $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
@@ -96,7 +106,14 @@ class InstallCommand extends Command
                 ] + $packages;
         });
 
-        $this->runCommands(['npm install', 'npm run dev']);
+        if ($this->option('docker')) {
+            $this->runCommands(['./vendor/bin/sail up']);
+            $this->runCommands(['./vendor/bin/sail npm install', './vendor/bin/sail npm run dev']);
+        }else{
+            $this->runCommands(['npm install', 'npm run dev']);
+        }
+
+
 
     }
 
@@ -112,6 +129,21 @@ class InstallCommand extends Command
     {
         file_put_contents($path, str_replace($search, $replace, file_get_contents($path)));
     }
+
+
+    /**
+     * Replace a given string within a given file.
+     *
+     * @param  string[]|string  $search
+     * @param  string[]|string  $replace
+     * @param  string  $path
+     * @return void
+     */
+    protected function replacePregInFile($search, $replace, $path)
+    {
+        file_put_contents($path, preg_replace($search, $replace, file_get_contents($path)));
+    }
+
 
 
 }
