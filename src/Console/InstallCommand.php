@@ -44,34 +44,28 @@ class InstallCommand extends Command
             $this->callSilent('vendor:publish', ['--tag' => 'support-docker', '--force' => true]);
             $this->callSilent('vendor:publish', ['--tag' => 'support-react', '--force' => true]);
 
-            // $this->callSilent('sail:install');
-            if ($this->option('host') != 'localhost') {
+            $nginxStub = file_get_contents(__DIR__ . '/../../stubs/services/nginx.stub');
+            $volumeStub = file_get_contents(__DIR__ . '/../../stubs/services/volume.stub');
 
-                $nginxStub = file_get_contents(__DIR__ . '/../../stubs/services/caddy.stub');
-                $volumeStub = file_get_contents(__DIR__ . '/../../stubs/services/volume.stub');
+            $this->replacePregInFile(
+                ['/^services:/m', '/^volumes:/m'],
+                ["services:\n{$nginxStub}", "volumes:\n{$volumeStub}"],
+                base_path('docker-compose.yml'));
 
-                $this->replacePregInFile(
-                    ['/^services:/m', '/^volumes:/m'],
-                    [$nginxStub, $volumeStub],
-                    base_path('docker-compose.yml'));
-
-                $this->replaceInFile("laravel.test", $this->option('host'), base_path('Caddyfile'));
-                $this->replaceInFile("laravel.test", $this->option('host'), base_path('docker-compose.yml'));
-                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://".$this->option('host'). ":443/" . PHP_EOL . "APP_SERVICE=" . $this->option('host') . PHP_EOL . "APP_PORT=443", base_path('.env'));
-                $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
-                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development" . PHP_EOL . "VITE_APP_PRODUCTION_URL=https://" . $this->option('host') . "/" . PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://" . $this->option('host') . ":443/", base_path('.env'));
-            }
         }
 
         if ($this->option('laragon')) {
             $this->callSilent('vendor:publish', ['--tag' => 'support-laragon', '--force' => true]);
-            if ($this->option('host') != 'localhost') {
-                $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://" . $this->option('host') . ":443/" . PHP_EOL . "APP_PORT=443", base_path('.env'));
-                $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
-                $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development" . PHP_EOL . "VITE_APP_PRODUCTION_URL=https://" . $this->option('host') . "/" . PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://" . $this->option('host') . ":443/", base_path('.env'));
-            }
         }
 
+        if ($this->option('host') != 'localhost') {
+            if ($this->option('docker')) {
+                $this->replaceInFile("laravel.test", $this->option('host'), base_path('docker-compose.yml'));
+            }
+            $this->replaceInFile("VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"", "VITE_PUSHER_APP_CLUSTER=\"\${PUSHER_APP_CLUSTER}\"" . PHP_EOL . "VITE_ENV=development" . PHP_EOL . "VITE_APP_PRODUCTION_URL=https://" . $this->option('host') . "/" . PHP_EOL . "VITE_APP_DEVELOPMENT_URL=https://" . $this->option('host'), base_path('.env'));
+            $this->replaceInFile("laravel.test", $this->option('host'), base_path('vite.config.js'));
+            $this->replaceInFile("APP_URL=http://localhost", "APP_URL=https://" . $this->option('host'), base_path('.env'));
+        }
 
         if (file_exists(base_path('routes/web.php'))) {
             $this->replaceInFile('return view(\'welcome\');', 'return redirect()->route(\'web-support\');', base_path('routes/web.php'));
@@ -106,15 +100,6 @@ class InstallCommand extends Command
 
                 ] + $packages;
         });
-
-        if ($this->option('docker')) {
-            $this->runCommands(['./vendor/bin/sail up']);
-            $this->runCommands(['./vendor/bin/sail npm install', './vendor/bin/sail npm run dev']);
-        }else{
-            $this->runCommands(['npm install', 'npm run dev']);
-        }
-
-
 
     }
 

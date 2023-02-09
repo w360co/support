@@ -1,2 +1,2 @@
-    sail-caddy:
+    sail-nginx:
         driver: local

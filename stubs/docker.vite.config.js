@@ -4,11 +4,12 @@ import react from "@vitejs/plugin-react";
 import {resolve} from 'path';
 import basicSsl from '@vitejs/plugin-basic-ssl';
 
+const host='laravel.test';
 
 export default defineConfig({
-    server: {
-        https: true,
-        host: 'laravel.test',
+    server:{
+        host: host,
+        https: true
     },
     plugins: [
         react(),
@@ -24,7 +25,10 @@ export default defineConfig({
     ],
     resolve: {
         alias: {
-            '~bootstrap': resolve(__dirname, 'node_modules/bootstrap'),
+            '~bootstrap': resolve(__dirname, 'node_modules/bootstrap')
         }
+    },
+    build: {
+        chunkSizeWarningLimit: 1600,
     },
 });

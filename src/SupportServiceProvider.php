@@ -76,7 +76,11 @@ class SupportServiceProvider extends ServiceProvider
         ], 'support-react');
 
         $this->publishes([
-            __DIR__ . '/../Caddyfile' => base_path('Caddyfile'),
+            __DIR__ . '/../.gitignore' => base_path('.gitignore'),
+        ], 'support-react');
+
+        $this->publishes([
+            __DIR__ . '/../stubs/nginx' => base_path('nginx'),
         ], 'support-docker');
 
         $this->publishes([
