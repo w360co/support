@@ -3,7 +3,7 @@
     "description": "Base module for w360 projects using react",
     "type": "library",
     "license": "MIT",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "autoload": {
         "psr-4": {
             "W360\\Support\\": "src/"
@@ -39,7 +39,7 @@
         "php": "^8.0",
         "ext-json": "*",
         "ext-curl": "*",
-        "laravel/framework": "^9.19",
+        "laravel/framework": "^9.0|^10.0",
         "intervention/image": "^2.7"
     },
     "require-dev": {
